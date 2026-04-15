@@ -1,6 +1,7 @@
 name: Contract CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -29,4 +30,3 @@ jobs:
         run: npm test
       - name: Check breaking changes
         run: npm run check:breaking
-
