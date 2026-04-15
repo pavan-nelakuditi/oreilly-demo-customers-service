@@ -2,6 +2,64 @@ name: Postman Onboarding
 
 on:
   workflow_dispatch:
+    inputs:
+      workspace_id:
+        description: Existing Postman workspace ID to reuse
+        required: false
+        type: string
+      spec_id:
+        description: Existing Postman spec ID to reuse
+        required: false
+        type: string
+      baseline_collection_id:
+        description: Existing baseline collection ID to reuse
+        required: false
+        type: string
+      smoke_collection_id:
+        description: Existing smoke collection ID to reuse
+        required: false
+        type: string
+      contract_collection_id:
+        description: Existing contract collection ID to reuse
+        required: false
+        type: string
+      mock_url:
+        description: Existing mock server URL to reuse
+        required: false
+        type: string
+      monitor_id:
+        description: Existing monitor ID to reuse
+        required: false
+        type: string
+      collection_sync_mode:
+        description: Collection lifecycle policy
+        required: true
+        type: choice
+        default: refresh
+        options:
+          - refresh
+          - version
+      spec_sync_mode:
+        description: Spec lifecycle policy
+        required: true
+        type: choice
+        default: update
+        options:
+          - update
+          - version
+      release_label:
+        description: Optional release label for versioned sync
+        required: false
+        type: string
+      monitor_cron:
+        description: Optional cron expression for monitor scheduling
+        required: false
+        type: string
+      requester_email:
+        description: Requester email for workspace membership
+        required: false
+        default: workshop.owner@example.com
+        type: string
 
 jobs:
   onboarding:
@@ -45,13 +103,24 @@ jobs:
         uses: postman-cs/postman-api-onboarding-action@main
         with:
           project-name: ${{ github.event.repository.name }}
+          workspace-id: ${{ github.event.inputs.workspace_id }}
+          spec-id: ${{ github.event.inputs.spec_id }}
+          baseline-collection-id: ${{ github.event.inputs.baseline_collection_id }}
+          smoke-collection-id: ${{ github.event.inputs.smoke_collection_id }}
+          contract-collection-id: ${{ github.event.inputs.contract_collection_id }}
+          collection-sync-mode: ${{ github.event.inputs.collection_sync_mode }}
+          spec-sync-mode: ${{ github.event.inputs.spec_sync_mode }}
+          release-label: ${{ github.event.inputs.release_label }}
+          monitor-id: ${{ github.event.inputs.monitor_id }}
+          mock-url: ${{ github.event.inputs.mock_url }}
+          monitor-cron: ${{ github.event.inputs.monitor_cron }}
           spec-path: dist/openapi.bundled.yaml
           spec-url: https://raw.githubusercontent.com/${{ github.repository }}/bundled-specs/openapi.yaml
           generate-ci-workflow: false
           repo-write-mode: commit-only
           domain: workshop-pilot
           domain-code: OR
-          requester-email: workshop.owner@example.com
+          requester-email: ${{ github.event.inputs.requester_email }}
           environments-json: '["stage"]'
           env-runtime-urls-json: '{"stage":"https://stage.api.example.com"}'
           governance-mapping-json: '{"workshop-pilot":"Workshop Pilot"}'
