@@ -31,3 +31,9 @@ jobs:
         run: npm test
       - name: Check breaking changes
         run: npm run check:breaking
+      - name: Upload bundled spec artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-bundled
+          path: dist/openapi.bundled.yaml
+          if-no-files-found: error
