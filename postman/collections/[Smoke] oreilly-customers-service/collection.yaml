@@ -1,0 +1,13 @@
+$schema: https://schema.postman.com/json/draft-2020-12/collection/v3.0.0/
+type: collection
+name: '[Smoke] oreilly-customers-service'
+description: |
+  Clean API-first customer ownership contract for the workshop pilot.
+id: 881a716a-b95e-4375-bd78-d07f171fd2a2
+variables:
+  - key: baseUrl
+    value: http://localhost:3001
+    type: any
+items:
+  - ref: ./customers/folder.yaml
+  - ref: ./00 - Resolve Secrets.request.yaml
