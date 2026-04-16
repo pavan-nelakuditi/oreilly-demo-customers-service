@@ -9,7 +9,7 @@ info:
   x-workshop-pattern: live-entity-owner
   x-api-lifecycle: workshop-pilot
 servers:
-  - url: https://api.example.com/customers
+  - url: http://localhost:3001
 tags:
   - name: customers
     description: Live customer records owned by the customer domain.
@@ -237,4 +237,3 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Address'
-
