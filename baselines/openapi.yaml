@@ -183,7 +183,8 @@ components:
       properties:
         customerType:
           type: string
-          const: pro
+          enum:
+            - pro
         customerNumber:
           type: integer
           format: int64
@@ -217,7 +218,8 @@ components:
       properties:
         customerType:
           type: string
-          const: cash
+          enum:
+            - cash
         customerNumbers:
           type: array
           minItems: 1
