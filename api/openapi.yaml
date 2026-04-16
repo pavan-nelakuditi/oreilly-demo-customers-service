@@ -80,7 +80,14 @@ paths:
       summary: Get a Cash customer
       operationId: getCashCustomer
       parameters:
-        - $ref: '#/components/parameters/CustomerNumber'
+        - name: customerNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+            example: 70004567
       responses:
         '200':
           description: Cash customer record
@@ -227,6 +234,7 @@ components:
           items:
             type: integer
             format: int64
+            example: 70004567
         firstName:
           type: string
         lastName:
