@@ -124,28 +124,40 @@ jobs:
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Resolve synced Postman resource IDs
+        id: synced_postman_resources
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import YAML from 'yaml';
+
+          const outputPath = process.env.GITHUB_OUTPUT;
+          const resources = YAML.parse(fs.readFileSync('.postman/resources.yaml', 'utf8')) || {};
+          const cloudResources = resources.cloudResources || {};
+          const collections = cloudResources.collections || {};
+          const environments = cloudResources.environments || {};
+
+          const contractCollectionId = Object.entries(collections).find(([filePath]) =>
+            filePath.includes('[Contract]')
+          )?.[1];
+          const environmentId = Object.values(environments)[0];
+
+          if (!contractCollectionId || !environmentId) {
+            throw new Error('Missing synced Postman collection or environment IDs after onboarding.');
+          }
+
+          fs.appendFileSync(
+            outputPath,
+            `contract_collection_id=${contractCollectionId}\nenvironment_id=${environmentId}\n`
+          );
+          NODE
       - name: Install Postman CLI
         run: curl -o- "https://dl-cli.pstmn.io/install/unix.sh" | sh
       - name: Login to Postman CLI
         run: postman login --with-api-key "${{ secrets.POSTMAN_API_KEY }}"
       - name: Run generated contract collection against localhost
         run: |
-          CONTRACT_DIR="postman/collections/[Contract] oreilly-customers-service"
-          COLLECTION_FILE="$CONTRACT_DIR/collection.yaml"
-          ENV_FILE="postman/environments/TEST.postman_environment.json"
-
-          test -f "$COLLECTION_FILE"
-          test -f "$ENV_FILE"
-
-          export COLLECTION_FILE
-          ruby <<'RUBY'
-          path = ENV.fetch('COLLECTION_FILE')
-          lines = File.readlines(path)
-          lines.reject! { |line| line.include?('00 - Resolve Secrets.request.yaml') }
-          File.write(path, lines.join)
-          RUBY
-
-          npm run dev >/tmp/customers-service.log 2>&1 &
+          node --import tsx ./src/app.ts >/tmp/customers-service.log 2>&1 &
           APP_PID=$!
           trap 'kill $APP_PID' EXIT
 
@@ -157,8 +169,9 @@ jobs:
           done
 
           curl -fsS http://localhost:3001/health >/dev/null
-          postman collection run "$COLLECTION_FILE" \
-            -e "$ENV_FILE" \
+          postman collection run "${{ steps.synced_postman_resources.outputs.contract_collection_id }}" \
+            -e "${{ steps.synced_postman_resources.outputs.environment_id }}" \
+            --folder customers \
             --env-var CI=true
       - name: Upload service log on failure
         if: failure()
