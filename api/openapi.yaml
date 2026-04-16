@@ -116,6 +116,7 @@ components:
         type: integer
         format: int64
         minimum: 1
+        example: 90001234
   schemas:
     Address:
       type: object
@@ -152,6 +153,7 @@ components:
         customerNumber:
           type: integer
           format: int64
+          example: 90001234
         customerName:
           type: string
         customerAddress:
@@ -185,6 +187,7 @@ components:
         customerNumber:
           type: integer
           format: int64
+          example: 90001234
         customerName:
           type: string
         customerAddress:
@@ -219,6 +222,8 @@ components:
         customerNumbers:
           type: array
           minItems: 1
+          example:
+            - 70004567
           items:
             type: integer
             format: int64
