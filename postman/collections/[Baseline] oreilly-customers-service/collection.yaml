@@ -7,6 +7,5 @@ id: e78495fc-fed6-4db0-b708-6fb95a94658f
 variables:
   - key: baseUrl
     value: http://localhost:3001
-    type: any
 items:
   - ref: ./customers/folder.yaml
