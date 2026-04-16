@@ -7,7 +7,7 @@ headers:
     value: application/json
 pathVariables:
   - key: customerNumber
-    value: '2579'
+    value: '90001234'
 scripts:
   - type: afterResponse
     code:
