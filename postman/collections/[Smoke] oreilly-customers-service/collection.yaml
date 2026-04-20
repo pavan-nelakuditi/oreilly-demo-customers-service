@@ -3,7 +3,7 @@ type: collection
 name: '[Smoke] oreilly-customers-service'
 description: |
   Clean API-first customer ownership contract for the workshop pilot.
-id: 0eaca638-7606-4166-aef7-c18fe370183b
+id: f2fe38e0-6977-426d-a2a2-1f94ae84efbb
 variables:
   - key: baseUrl
     value: http://localhost:3001
