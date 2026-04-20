@@ -183,7 +183,7 @@ jobs:
           NODE
       - id: onboarding
         name: Run Postman API onboarding
-        uses: pavan-nelakuditi/postman-api-onboarding-action@codex/spec-id-debug
+        uses: postman-cs/postman-api-onboarding-action@main
         with:
           project-name: ${{ github.event.repository.name }}
           workspace-id: ${{ github.event.inputs.workspace_id }}
