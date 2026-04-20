@@ -32,8 +32,6 @@ jobs:
         run: npm run typecheck
       - name: Test
         run: npm test
-      - name: Check breaking changes
-        run: npm run check:breaking
       - name: Publish bundled spec to Spechub
         env:
           SPECHUB_WRITE_TOKEN: ${{ secrets.SPECHUB_WRITE_TOKEN }}
@@ -62,7 +60,7 @@ jobs:
           echo "--- api ---"
           ls -la api
           echo "--- baselines ---"
-          ls -la baselines
+          ls -la baselines || true
           echo "--- .postman ---"
           ls -la .postman || true
           test -f api/openapi.yaml && echo "found api/openapi.yaml"

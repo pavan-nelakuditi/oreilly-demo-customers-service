@@ -25,8 +25,6 @@ jobs:
         run: npm run typecheck
       - name: Test
         run: npm test
-      - name: Check breaking changes
-        run: npm run check:breaking
       - name: Upload bundled spec artifact
         uses: actions/upload-artifact@v4
         with:

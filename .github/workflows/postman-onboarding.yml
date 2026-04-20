@@ -128,7 +128,7 @@ jobs:
           echo "--- api ---"
           ls -la api
           echo "--- baselines ---"
-          ls -la baselines
+          ls -la baselines || true
           echo "--- .postman ---"
           ls -la .postman || true
           test -f api/openapi.yaml && echo "found api/openapi.yaml"
@@ -181,51 +181,6 @@ jobs:
             console.log('preexisting-cloud-specs={}');
           }
           NODE
-      - name: Hide baseline spec for debug
-        run: mv baselines/openapi.yaml /tmp/baseline-openapi.yaml
-      - name: Confirm discovered specs after hiding baseline
-        run: |
-          node --input-type=module <<'NODE'
-          import fs from 'node:fs';
-          import path from 'node:path';
-          import YAML from 'yaml';
-
-          const ignoredDirs = new Set(['.git', '.omc', '.omx', '.llm-plans', 'node_modules', 'dist']);
-          const results = [];
-
-          function isOpenApiSpec(filePath) {
-            if (!/\.(json|yaml|yml)$/.test(filePath)) return false;
-            try {
-              const raw = fs.readFileSync(filePath, 'utf8');
-              const parsed = filePath.endsWith('.json') ? JSON.parse(raw) : YAML.parse(raw);
-              return Boolean(
-                parsed &&
-                  typeof parsed === 'object' &&
-                  ((parsed.swagger === '2.0' && parsed.paths && typeof parsed.paths === 'object') ||
-                    (typeof parsed.openapi === 'string' && parsed.paths && typeof parsed.paths === 'object'))
-              );
-            } catch {
-              return false;
-            }
-          }
-
-          function visit(currentDir) {
-            for (const entry of fs.readdirSync(currentDir, { withFileTypes: true })) {
-              if (ignoredDirs.has(entry.name)) continue;
-              const fullPath = path.join(currentDir, entry.name);
-              if (entry.isDirectory()) {
-                visit(fullPath);
-                continue;
-              }
-              if (entry.isFile() && isOpenApiSpec(fullPath)) {
-                results.push(fullPath.split(path.sep).join('/'));
-              }
-            }
-          }
-
-          visit('.');
-          console.log('discovered-specs=' + JSON.stringify(results.sort()));
-          NODE
       - id: onboarding
         name: Run Postman API onboarding
         uses: postman-cs/postman-api-onboarding-action@main
@@ -272,9 +227,3 @@ jobs:
           test -f .postman/resources.yaml && cat .postman/resources.yaml || echo "missing .postman/resources.yaml"
           echo "--- workflows.yaml ---"
           test -f .postman/workflows.yaml && cat .postman/workflows.yaml || echo "missing .postman/workflows.yaml"
-      - name: Restore baseline spec after debug
-        if: always()
-        run: |
-          if [ -f /tmp/baseline-openapi.yaml ]; then
-            mv /tmp/baseline-openapi.yaml baselines/openapi.yaml
-          fi
