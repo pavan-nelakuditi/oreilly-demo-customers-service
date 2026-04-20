@@ -115,7 +115,8 @@ jobs:
           git add customers/openapi.yaml
           git diff --cached --quiet || git commit -m "chore: publish bundled customers spec"
           git push origin main
-      - name: Run Postman API onboarding
+      - id: onboarding
+        name: Run Postman API onboarding
         uses: postman-cs/postman-api-onboarding-action@main
         with:
           project-name: ${{ github.event.repository.name }}
@@ -143,3 +144,20 @@ jobs:
           postman-api-key: ${{ secrets.POSTMAN_API_KEY }}
           postman-access-token: ${{ secrets.POSTMAN_ACCESS_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Debug Postman onboarding outputs
+        if: always()
+        run: |
+          echo "workspace-id=${{ steps.onboarding.outputs.workspace-id }}"
+          echo "spec-id=${{ steps.onboarding.outputs.spec-id }}"
+          echo "baseline-collection-id=${{ steps.onboarding.outputs.baseline-collection-id }}"
+          echo "smoke-collection-id=${{ steps.onboarding.outputs.smoke-collection-id }}"
+          echo "contract-collection-id=${{ steps.onboarding.outputs.contract-collection-id }}"
+          echo "bootstrap-outcome=${{ steps.onboarding.outputs.bootstrap-outcome }}"
+          echo "repo-sync-outcome=${{ steps.onboarding.outputs.repo-sync-outcome }}"
+          echo "commit-sha=${{ steps.onboarding.outputs.commit-sha }}"
+          echo "--- .postman files ---"
+          find .postman -maxdepth 2 -type f | sort || true
+          echo "--- resources.yaml ---"
+          test -f .postman/resources.yaml && cat .postman/resources.yaml || echo "missing .postman/resources.yaml"
+          echo "--- workflows.yaml ---"
+          test -f .postman/workflows.yaml && cat .postman/workflows.yaml || echo "missing .postman/workflows.yaml"
