@@ -3,7 +3,7 @@ type: collection
 name: '[Baseline] oreilly-customers-service'
 description: |
   Clean API-first customer ownership contract for the workshop pilot.
-id: e78495fc-fed6-4db0-b708-6fb95a94658f
+id: 3529046e-f90f-4472-b602-9bd55223d7bb
 variables:
   - key: baseUrl
     value: http://localhost:3001
