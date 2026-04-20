@@ -1,0 +1,20 @@
+workspace:
+  id: 25c9a251-7a5b-4ef6-abd3-755361480772
+localResources:
+  collections:
+    - ../postman/collections/[Baseline] oreilly-customers-service
+    - ../postman/collections/[Smoke] oreilly-customers-service
+    - ../postman/collections/[Contract] oreilly-customers-service
+  environments:
+    - ../postman/environments/TEST.postman_environment.json
+  specs:
+    - ../api/openapi.yaml
+cloudResources:
+  collections:
+    ../postman/collections/[Baseline] oreilly-customers-service: 50585768-7a49f22a-ccdf-4faf-8139-187315477495
+    ../postman/collections/[Smoke] oreilly-customers-service: 50585768-3b29f74d-3226-40e8-b5dd-e149a2c0ee23
+    ../postman/collections/[Contract] oreilly-customers-service: 50585768-5aaa84b6-519d-45c5-a726-0a0bf97d2594
+  environments:
+    ../postman/environments/TEST.postman_environment.json: 50585768-adf56d64-2ba6-4768-ba8d-5a6ceb673019
+  specs:
+    ../api/openapi.yaml: e936c41a-c6b0-4490-bf66-7da80207cc7d
