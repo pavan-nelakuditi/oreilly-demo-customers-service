@@ -9,7 +9,6 @@ localResources:
     - ../postman/environments/TEST.postman_environment.json
   specs:
     - ../api/openapi.yaml
-    - ../baselines/openapi.yaml
 cloudResources:
   collections:
     ../postman/collections/[Baseline] oreilly-customers-service: 50585768-e78495fc-fed6-4db0-b708-6fb95a94658f
