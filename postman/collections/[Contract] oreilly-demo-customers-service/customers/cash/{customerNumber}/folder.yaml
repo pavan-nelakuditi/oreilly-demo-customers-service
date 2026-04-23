@@ -1,0 +1,4 @@
+type: folder
+name: '{customerNumber}'
+items:
+  - ref: ./Get a Cash customer.request.yaml

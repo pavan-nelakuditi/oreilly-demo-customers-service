@@ -1,0 +1,6 @@
+type: folder
+name: customers
+items:
+  - ref: ./ar/folder.yaml
+  - ref: ./pro/folder.yaml
+  - ref: ./cash/folder.yaml
