@@ -1,4 +1,0 @@
-type: folder
-name: cash
-items:
-  - ref: ./{customerNumber}/folder.yaml

@@ -1,4 +1,0 @@
-type: folder
-name: ar
-items:
-  - ref: ./{customerNumber}/folder.yaml
