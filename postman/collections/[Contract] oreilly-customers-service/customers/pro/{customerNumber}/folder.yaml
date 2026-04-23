@@ -1,4 +1,0 @@
-type: folder
-name: '{customerNumber}'
-items:
-  - ref: ./Get a Pro customer.request.yaml
