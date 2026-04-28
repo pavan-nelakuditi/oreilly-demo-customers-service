@@ -1,0 +1,4 @@
+type: folder
+name: '{customerNumber}'
+items:
+  - ref: ./Get an AR customer.request.yaml
