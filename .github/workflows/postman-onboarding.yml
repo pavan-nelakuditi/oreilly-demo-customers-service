@@ -191,8 +191,7 @@ jobs:
           monitor-id: ${{ github.event.inputs.monitor_id }}
           mock-url: ${{ github.event.inputs.mock_url }}
           monitor-cron: ${{ github.event.inputs.monitor_cron }}
-          spec-path: api/openapi.yaml
-          spec-url: https://raw.githubusercontent.com/${{ github.repository }}/${{ steps.bundled_spec.outputs.spec_ref }}/api/openapi.bundled.yaml
+          spec-path: api/openapi.bundled.yaml
           generate-ci-workflow: false
           repo-write-mode: ${{ github.event.inputs.repo_write_mode }}
           domain: workshop-pilot
