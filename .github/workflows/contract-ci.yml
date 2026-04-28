@@ -25,6 +25,8 @@ jobs:
         run: npm run typecheck
       - name: Test
         run: npm test
+      - name: Build production runtime
+        run: npm run build
       - name: Upload bundled spec artifact
         uses: actions/upload-artifact@v4
         with:

@@ -17,6 +17,8 @@ npm install
 npm run validate:specs
 npm run typecheck
 npm test
+npm run build
+npm run start
 ```
 
 ## Required Secrets
