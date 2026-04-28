@@ -27,6 +27,6 @@ Set these repository secrets before running CI or Postman onboarding:
 
 - `POSTMAN_API_KEY`: Postman API key for bootstrap and repo sync
 - `POSTMAN_ACCESS_TOKEN`: Postman access token for governance and internal integration calls
-- `GITHUB_TOKEN`: used by GitHub Actions to write `dist/openapi.bundled.yaml` back to `api/openapi.bundled.yaml` in this repo
+- `SPECHUB_WRITE_TOKEN`: token with write access to `pavan-nelakuditi/Spechub` so the workflow can publish `dist/openapi.bundled.yaml` to `customers/openapi.yaml`
 
-GitHub automatically provides `GITHUB_TOKEN` for same-repo writes during the workflow run.
+GitHub automatically provides `GITHUB_TOKEN` for repo sync commits created by the onboarding action.
